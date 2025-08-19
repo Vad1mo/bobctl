@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  mywebapp:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-08-19T14:40:26.226754811Z"
+    description: A Helm chart for the WebApp deployment
+    digest: c998c3f7205c9044861a682fc51dcb2265d1a43b6e78886eca5a8c1863188704
+    name: mywebapp
+    type: application
+    urls:
+    - https://k8sstormcenter.github.io/bobctl/helm-charts/mywebapp-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-08-19T14:40:26.226274517Z"
