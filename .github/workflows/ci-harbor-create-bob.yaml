@@ -163,12 +163,17 @@ jobs:
           sudo systemctl restart docker
           echo "Docker configured for insecure registry"
 
-      - name: Wait for Harbor NodePort
+      - name: Verify Harbor System Status
         run: |
           for i in {1..3}; do
-            curl -sf http://127.0.0.1:30002/api/v2.0/systeminfo && break
+            if RESPONSE=$(curl -sf http://127.0.0.1:30002/api/v2.0/systeminfo); then
+              echo "$RESPONSE" | jq .
+              exit 0
+            fi
             sleep 5
           done
+          echo "Failed to connect to Harbor"
+          exit 1
 
       - name: Run helm test
         continue-on-error: true
