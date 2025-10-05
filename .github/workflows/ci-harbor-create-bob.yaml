@@ -166,7 +166,7 @@ jobs:
       - name: Check port exposure
         run: |
           echo "=== Harbor Service ==="
-          kubectl get svc -n harbor harbor -o wide
+          kubectl get svc -n harbor harbor -o wide || kubectl get svc -n harbor
           echo ""
           echo "=== Kind container ports ==="
           docker ps --filter name=chart-testing --format "table {{.Names}}\t{{.Ports}}"
