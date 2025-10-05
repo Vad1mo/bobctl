@@ -163,6 +163,20 @@ jobs:
           sudo systemctl restart docker
           echo "Docker configured for insecure registry"
 
+      - name: Check port exposure
+        run: |
+          echo "=== Harbor Service ==="
+          kubectl get svc -n harbor harbor -o wide
+          echo ""
+          echo "=== Kind container ports ==="
+          docker ps --filter name=chart-testing --format "table {{.Names}}\t{{.Ports}}"
+          echo ""
+          echo "=== Test from inside Kind node ==="
+          docker exec chart-testing-control-plane curl -sf http://localhost:30002/api/v2.0/systeminfo | jq . || echo "Failed"
+          echo ""
+          echo "=== Listening ports on Kind node ==="
+          docker exec chart-testing-control-plane netstat -tuln | grep 30002 || echo "Port 30002 not listening"
+
       - name: Verify Harbor System Status
         run: |
           for i in {1..3}; do
