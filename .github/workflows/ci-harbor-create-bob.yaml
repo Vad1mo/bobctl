@@ -124,6 +124,17 @@ jobs:
         run: |
           make sample-app
 
+      - name: Verify kubectl permissions
+        run: |
+          echo "Current context:"
+          kubectl config current-context
+          echo ""
+          echo "Testing permissions:"
+          kubectl auth can-i get services -n harbor || true
+          echo ""
+          echo "Checking kubeconfig:"
+          kubectl config view --minify
+
       - name: Debug Harbor pod status
         if: failure()
         run: |
